@@ -1,0 +1,35 @@
+<div class="chat-container">
+  <div class="user-list">
+    <h3>Contacts</h3>
+
+    <div class="search-bar">
+      <input type="text" [(ngModel)]="searchText" placeholder="Rechercher un utilisateur" class="search-input">
+      <button (click)="searchUser()" class="search-button">Rechercher</button>
+    </div>
+
+    <ul>
+      <li *ngFor="let user of contactedUsers" (click)="selectUser(user)" class="user-item">
+        <span [ngClass]="{'online': user.isConnected, 'offline': !user.isConnected}" class="status-indicator"></span>
+        {{ user.fullname }}
+      </li>
+    </ul>
+
+    <button (click)="logout()" class="logout-button">Déconnexion</button>
+  </div>
+
+  <div class="chat-box" *ngIf="selectedUser">
+    <h3>Conversation avec {{ selectedUser.fullname }}</h3>
+    <div class="message-history">
+      <div *ngFor="let message of messageHistory">
+        <p [ngClass]="{'me': message.fromId === 'me', 'them': message.fromId !== 'me'}">
+          {{ message.message }}
+        </p>
+      </div>
+    </div>
+
+    <div class="message-input">
+      <textarea [(ngModel)]="messageText" placeholder="Votre message..." class="message-textarea"></textarea>
+      <button (click)="sendMessage()" class="send-button">Envoyer</button>
+    </div>
+  </div>
+</div>
